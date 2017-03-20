@@ -1,0 +1,33 @@
+{
+  "extends" : [
+    "standard",
+    "plugin:node/recommended",
+    "plugin:promise/recommended"
+  ],
+  "plugins": [
+    "promise",
+    "node"
+  ],
+  "env"     : {
+    "node" : true,
+  },
+  "rules": {
+    "semi" : [2, "always"],
+    "max-len": [1, 200, 2],
+    "generator-star-spacing": 0,
+    "jsx-quotes": [2, "prefer-single"],
+    "strict": [2, "safe"],
+    "prefer-template": 2,
+    "no-undefined": 2,
+    "no-console": ["warn", {"allow": ["warn", "error"]}],
+    "prefer-arrow-callback": 2,
+    "no-var": 2,
+    "space-before-function-paren": [2, "never"],
+    "camelcase": [0],
+    "no-warning-comments": 1,
+
+    "promise/no-callback-in-promise": "off",
+    "promise/no-nesting": "off",
+    "node/no-unpublished-require": "error"
+  }
+}

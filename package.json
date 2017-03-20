@@ -1,0 +1,25 @@
+{
+  "name": "le-challenge-digitalocean",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=4.4.0",
+    "npm": "^3.0.0"
+  },
+  "description": "a dns challenge using DigitalOcean for node-letsencrypt/greenlock",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "do-wrapper": "^3.11.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.5.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-node": "^4.0.0",
+    "eslint-plugin-promise": "^3.5  .0",
+    "eslint-plugin-standard": "^2.0.0"
+  }
+}
