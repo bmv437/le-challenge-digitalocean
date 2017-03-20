@@ -17,7 +17,7 @@ npm install --save le-challenge-digitalocean@2.x
 Usage
 -----
 
-```bash
+```javascript
 var leChallengeDigitalOcean = require('le-challenge-digitalocean').create({
   debug: false,
   doApiKey: 'your-api-key'
