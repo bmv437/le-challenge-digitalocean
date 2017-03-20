@@ -15,18 +15,32 @@ const defaults = {
   doApiKey: null
 };
 
+const logTag = '[le-challenge-digitalocean]';
+function log(debug) {
+  if (debug) {
+    let args = Array.prototype.slice.call(arguments);
+    args.shift();
+    args.unshift(logTag);
+    console.info.apply(console, args);
+  }
+};
+
 const Challenge = module.exports;
 
-// TODO: rework for normal constructor pattern, with a factory
-
 Challenge.create = function(options) {
-  const obj = Object.assign({}, _.omit(Challenge, 'create'));
-  const _options = Object.assign(defaults, options);
-  obj._options = _options;
-  obj.getOptions = () => obj._options;
-  obj._doApi = new DigitalOcean(_options.doApiKey);
+  const _options = _.merge({}, defaults, options);
 
-  return obj;
+  return {
+    getOptions: () => {
+      return _options;
+    },
+    set: Challenge.set,
+    get: Challenge.get,
+    remove: Challenge.remove,
+    loopback: Challenge.loopback,
+    test: Challenge.test,
+    _doApi: new DigitalOcean(_options.doApiKey)
+  };
 };
 
 Challenge.set = function(opts, host, challenge, keyAuthorization, cb) {
@@ -52,19 +66,31 @@ Challenge.set = function(opts, host, challenge, keyAuthorization, cb) {
 
       const existingRecord = _.find(records.domain_records, {name: acmeRecordName});
       if (existingRecord) {
+        log(opts.debug, 'attempting to update record', acmeChallengeRecord);
         return this._doApi.domainRecordsUpdate(domain, existingRecord.id, acmeChallengeRecord)
-          .then(() => console.log('updated acme record'))
-          .catch((e) => console.error('update error', e));
+          .then(() => {
+            log(opts.debug, 'updated acme record', acmeChallengeRecord);
+            return cb(null);
+          })
+          .catch((e) => {
+            console.error(logTag, 'update error', e);
+            cb(e);
+          });
       } else {
-        console.log('attempting to create record', acmeChallengeRecord);
+        log(opts.debug, 'attempting to create record', acmeChallengeRecord);
         return this._doApi.domainRecordsCreate(domain, acmeChallengeRecord)
-          .then(() => console.log('created acme record', acmeChallengeRecord))
-          .catch((e) => console.error('create error', e));
+          .then(() => {
+            log(opts.debug, 'created acme record', acmeChallengeRecord);
+            return cb(null);
+          })
+          .catch((e) => {
+            console.error(logTag, 'create error', e);
+            cb(e);
+          });
       }
     }).catch((e) => {
-      console.error("couldn't find a domain by", domain);
+      console.error(logTag, "couldn't find a domain by", domain);
       cb(e);
-      throw e;
     });
 };
 
@@ -81,15 +107,19 @@ Challenge.remove = function(opts, host, token, cb) {
       const existingRecord = _.find(records.domain_records, {name: acmeRecordName});
       if (existingRecord) {
         return this._doApi.domainRecordsDelete(domain, existingRecord.id)
-          .then(() => console.log('DO: deleted acme record'))
-          .catch((e) => console.error('update error', e));
+          .then(() => log(opts.debug, 'DO: deleted acme record', existingRecord))
+          .then(() => cb(null))
+          .catch((e) => {
+            console.error(logTag, 'update error', e);
+            return cb(e);
+          });
       } else {
-        console.log('DO: could not find existing record', acmeRecordName);
-        throw new Error('DO: could not find existing record');
+        log(opts.debug, 'DO: could not find existing record', acmeRecordName);
+        return cb(new Error('DO: could not find existing record'));
       }
     }).catch((e) => {
-      console.error("couldn't find a domain by", domain);
-      throw e;
+      console.error(logTag, "couldn't find a domain by", domain);
+      cb(e);
     });
 };
 

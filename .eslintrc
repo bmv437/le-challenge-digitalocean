@@ -19,7 +19,7 @@
     "strict": [2, "safe"],
     "prefer-template": 2,
     "no-undefined": 2,
-    "no-console": ["warn", {"allow": ["warn", "error"]}],
+    "no-console": ["warn", {"allow": ["warn", "error", "info"]}],
     "prefer-arrow-callback": 2,
     "no-var": 2,
     "space-before-function-paren": [2, "never"],
