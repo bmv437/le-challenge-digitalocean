@@ -1,6 +1,8 @@
 le-challenge-digitalocean
 ================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bmv437/le-challenge-digitalocean.svg)](https://greenkeeper.io/)
+
 An automatic dns-based strategy for node-greenlock(formerly node-letsencrypt) for setting, retrieving,
 and clearing ACME DNS-01 challenges issued by the ACME server using the DigitalOcean api.
 
