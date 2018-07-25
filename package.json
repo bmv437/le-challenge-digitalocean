@@ -1,6 +1,6 @@
 {
   "name": "le-challenge-digitalocean",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "engines": {
     "node": ">=4.4.0",
     "npm": "^3.0.0"
