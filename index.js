@@ -1,4 +1,4 @@
-const DigitalOcean = require('do-wrapper');
+const DigitalOcean = require('do-wrapper').default;
 const Promise = require('bluebird');
 const dns = Promise.promisifyAll(require('dns'));
 
